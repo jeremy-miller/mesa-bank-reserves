@@ -10,7 +10,6 @@ class Person(mesa.Agent):
         self.loan_amount = 0
         self.wallet = self.random.randint(1, rich_threshold + 1)
         self.wealth = 0  # savings - loan_amount
-        self.customer = 0  # person to trade with
 
     def step(self):
         self._move()
@@ -19,19 +18,20 @@ class Person(mesa.Agent):
         self.bank.balance_bank()
 
     def _move(self):
-        next_moves = self.model.grid.get_neighborhood(self.pos, True, True)
-        next_move = self.random.choice(next_moves)
+        available_next_moves = self.model.grid.get_neighborhood(self.pos, True, True)
+        next_move = self.random.choice(available_next_moves)
         self.model.grid.move_agent(self, next_move)
 
     def _trade(self):
         if self.savings > 0 or self.wallet > 0 or self.bank.available_loan_amount > 0:
             customers_at_my_cell = self.model.grid.get_cell_list_contents([self.pos])
-            if len(customers_at_my_cell) > 1:  # list includes self
+            # list includes self, so make sure there's someone else to trade with
+            if len(customers_at_my_cell) > 1:
                 customer = self
                 while customer == self:
                     # select a random customer that's not self
                     customer = self.random.choice(customers_at_my_cell)
-                if self.random.randint(0, 1) == 1:  # 50% chance of trading with customer
+                if self.random.randint(0, 1) == 1:  # 50% chance of trading
                     if self.random.randint(0, 1) == 1:  # 50% chance of trading $5
                         customer.wallet += 5
                         self.wallet -= 5
@@ -42,7 +42,7 @@ class Person(mesa.Agent):
     def _balance_books(self):
         if self.wallet < 0:
             if self.savings >= -self.wallet:
-                # check if savings can cover negative wallet balance
+                # savings can completely cover negative wallet balance
                 self._withdraw_from_savings(-self.wallet)
             else:
                 # savings can't completely cover negative wallet balance

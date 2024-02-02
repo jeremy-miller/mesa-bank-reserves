@@ -60,7 +60,7 @@ model_params = {
         10,
         1,
         20,
-        description="Upper End of Random Initial Wallet Amount",
+        description="Max Initial Wallet Amount",
     ),
     "bank_reserve_percent": mesa.visualization.Slider(
         "Reserves",

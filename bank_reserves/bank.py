@@ -2,7 +2,7 @@ import mesa
 
 
 class Bank(mesa.Agent):
-    def __init__(self, unique_id, model, reserve_percent):
+    def __init__(self, unique_id, model, reserve_percent=50):
         super().__init__(unique_id, model)
         self.reserve_percent = reserve_percent
         self.loan_total = 0
