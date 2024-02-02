@@ -40,7 +40,30 @@ canvas_element = mesa.visualization.CanvasGrid(
     person_portrayal, GRID_WIDTH, GRID_HEIGHT, CANVAS_WIDTH, CANVAS_HEIGHT
 )
 
-chart_element = mesa.visualization.ChartModule(
+line_chart = mesa.visualization.ChartModule(
+    [
+        {"Label": "Rich", "Color": RICH_COLOR},
+        {"Label": "Middle Class", "Color": MIDDLE_CLASS_COLOR},
+        {"Label": "Poor", "Color": POOR_COLOR},
+    ]
+)
+
+model_bar = mesa.visualization.BarChartModule(
+    [
+        {"Label": "Rich", "Color": RICH_COLOR},
+        {"Label": "Middle Class", "Color": MIDDLE_CLASS_COLOR},
+        {"Label": "Poor", "Color": POOR_COLOR},
+    ]
+)
+
+agent_bar = mesa.visualization.BarChartModule(
+    [{"Label": "Wealth", "Color": MIDDLE_CLASS_COLOR}],
+    scope="agent",
+    sorting="ascending",
+    sort_by="Wealth",
+)
+
+pie_chart = mesa.visualization.PieChartModule(
     [
         {"Label": "Rich", "Color": RICH_COLOR},
         {"Label": "Middle Class", "Color": MIDDLE_CLASS_COLOR},
@@ -73,7 +96,7 @@ model_params = {
 
 server = mesa.visualization.ModularServer(
     BankReserves,
-    [canvas_element, chart_element],
+    [canvas_element, line_chart, model_bar, agent_bar, pie_chart],
     "Bank Reserves Model",
     model_params=model_params,
 )
