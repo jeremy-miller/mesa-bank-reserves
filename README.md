@@ -1,4 +1,4 @@
-# Bank Rserves Economic Model
+# Bank Reserves Economic Model
 
 Bank reserves economic model using
 [Mesa](https://mesa.readthedocs.io/en/stable/index.html) agent-based modeling library. Based on
